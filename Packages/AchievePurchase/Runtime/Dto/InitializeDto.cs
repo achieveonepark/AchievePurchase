@@ -1,8 +1,11 @@
-
+﻿
 using UnityEngine.Purchasing;
 
-public readonly struct InitializeDto
+namespace com.achieve.purchase
 {
-    public string ProductId { get; init; }
-    public ProductType ProductType { get; init; }
+    public readonly struct InitializeDto
+    {
+        public string ProductId { get; init; }
+        public ProductType ProductType { get; init; }
+    }
 }
