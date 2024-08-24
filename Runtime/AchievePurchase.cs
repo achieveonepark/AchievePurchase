@@ -25,7 +25,7 @@ namespace com.achieve.purchase
         /// </summary>
         /// <param name="dtos">IAP Initialize에 필요한 데이터</param>
         /// <param name="isDebug">Debug.Log를 찍을 것인지?</param>
-        public static async UniTask Initialize(InitializeDto[] dtos, bool isDebug = false)
+        public static async UniTask InitializeAsync(InitializeDto[] dtos, bool isDebug = false)
         {
             if (_isInitialized) return;
             PurchaseLog.CurrentLogLevel = isDebug ? PurchaseLog.LogLevel.Debug : PurchaseLog.LogLevel.Info;
@@ -37,6 +37,50 @@ namespace com.achieve.purchase
             for (int i = 0; i < dtos.Length; i++)
             {
                 var dto = dtos[i];
+                builder.AddProduct(dto.ProductId, dto.ProductType);
+            }
+
+            isCheckingPendingList = true;
+            UnityPurchasing.Initialize(_receiver, builder);
+
+            // 시간 내에 흐르지 못하면 false 처리
+            var result = await initializeCompletionSource.Task.Timeout(TimeSpan.FromSeconds(10));
+            _isInitialized = result.IsInitialized;
+
+            if (_isInitialized is false)
+            {
+                PurchaseLog.Warning("Initialize failed: No response after Initialize");
+                return;
+            }
+
+            PurchaseLog.Info("Initialize Successful!");
+        }
+
+        /// <summary>
+        /// 스토어에 등록 된 ProductID들을 기반으로 IAP를 Initialize합니다.
+        /// </summary>
+        /// <param name="dtos">IAP Initialize에 필요한 데이터</param>
+        /// <param name="isDebug">Debug.Log를 찍을 것인지?</param>
+        public static async UniTask InitializeAsync(List<InitializeDto> dtos, bool isDebug = false)
+        {
+            if (_isInitialized) return;
+            PurchaseLog.CurrentLogLevel = isDebug ? PurchaseLog.LogLevel.Debug : PurchaseLog.LogLevel.Info;
+
+            var dtoArray = dtos.ToArray();
+
+            dtos.Add(new InitializeDto
+            {
+                ProductId = "Consumable",
+                ProductType = ProductType.Consumable
+            });
+
+            _receiver = new AchievePurchaseReceiver();
+            pendingList = new List<PurchaseResult>();
+
+            var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
+            for (int i = 0; i < dtoArray.Length; i++)
+            {
+                var dto = dtoArray[i];
                 builder.AddProduct(dto.ProductId, dto.ProductType);
             }
 
@@ -80,11 +124,11 @@ namespace com.achieve.purchase
         /// 실패 : onPurchaseSuccess
         /// </summary>
         /// <param name="productId"></param>
-        public static async UniTask<PurchaseResult> Purchase(string productId)
+        public static async UniTask<PurchaseResult> PurchaseAsync(string productId)
         {
             if (_isInitialized)
             {
-                PurchaseLog.Warning($"It is not initialized. Call method : {nameof(Purchase)}");
+                PurchaseLog.Warning($"It is not initialized. Call method : {nameof(PurchaseAsync)}");
                 var result = PurchaseResult.Error("초기화 실패");
             }
             
@@ -113,6 +157,19 @@ namespace com.achieve.purchase
             controller.ConfirmPendingPurchase(product.Product);
             PurchaseLog.Info($"I confirmed product [{product.Product.definition.id}].");
         }
+        
+
+        /// <summary>
+        /// Purchase로 결제 시도 후 onPurchaseSuccess로 event가 호출되었을 때
+        /// 올바르게 구매가 진행되었다면 상품 구매를 확정합니다.
+        /// 이 메소드를 호출한 후에 아이템을 지급해주세요.
+        /// </summary>
+        /// <param name="PurchaseResult"></param>
+        public static void Confirm(Product product)
+        {
+            controller.ConfirmPendingPurchase(product);
+            PurchaseLog.Info($"I confirmed product [{product.definition.id}].");
+        }
 
         /// <summary>
         /// 구매한 상품을 복원합니다.
@@ -124,13 +181,9 @@ namespace com.achieve.purchase
             {
                 var apple = extensionProvider.GetExtension<IAppleExtensions>();
 
-                // TODO : ...
-                apple.RestoreTransactions(result =>
+                apple.RestoreTransactions((result, reason) =>
                 {
-                    if(result)
-                    {
-
-                    }
+                    PurchaseLog.Info(result ? "Restore successful!" : $"Restore failed...{reason}");
                 });
             }
         }
