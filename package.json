@@ -1,6 +1,7 @@
 {
   "name": "com.achieve.scripting.purchase",
   "displayName": "Achieve Purchase",
+  "author": "Achieveone",
   "version": "0.0.1-beta.1",
   "unity": "2022.3",
   "description": "It is a payment module that provides an interface for easy use of Unity IAP.",
@@ -16,5 +17,8 @@
   "repository": {
     "url": "https://github.com/achieveonepark/AchievePurchase",
     "type": "git"
+  },
+  "_upm": {
+    "changelog": "## Added\n- Package release\n- Adding Unity IAP basic features"
   }
 }
