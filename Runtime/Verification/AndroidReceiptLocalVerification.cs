@@ -1,10 +1,13 @@
 using UnityEngine.Purchasing;
 using UnityEngine.Purchasing.Security;
 
-public class AndroidReceiptLocalVerification : IReceiptLocalVerification
+namespace com.achieve.scripting.purchase
 {
-    public void Verify(PurchaseEventArgs args)
+    public class AndroidReceiptLocalVerification : IReceiptLocalVerification
     {
-        //var validator = new CrossPlatformValidator
+        public void Verify(PurchaseEventArgs args)
+        {
+            //var validator = new CrossPlatformValidator
+        }
     }
 }

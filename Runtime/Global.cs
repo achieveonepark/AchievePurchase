@@ -1,4 +1,4 @@
-namespace com.achieve.purchase
+namespace com.achieve.scripting.purchase
 {
     public enum PurchaseType
     {

@@ -1,7 +1,7 @@
 ﻿using UnityEngine.Purchasing;
 using UnityEngine.Purchasing.Extension;
 
-namespace com.achieve.purchase
+namespace com.achieve.scripting.purchase
 {
     internal class AchievePurchaseReceiver : IDetailedStoreListener
     {

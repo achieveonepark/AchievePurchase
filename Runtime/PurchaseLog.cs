@@ -1,7 +1,6 @@
 ﻿using System;
-using UnityEngine;
 
-namespace com.achieve.purchase
+namespace com.achieve.scripting.purchase
 {
     public static class PurchaseLog
     {

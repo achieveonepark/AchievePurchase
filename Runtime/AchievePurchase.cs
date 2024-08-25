@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using System;
 using UnityEngine;
 
-namespace com.achieve.purchase
+namespace com.achieve.scripting.purchase
 {
     public class AchievePurchase
     {

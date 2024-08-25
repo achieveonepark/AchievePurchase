@@ -1,6 +1,10 @@
 using UnityEngine.Purchasing;
 
-public interface IReceiptLocalVerification
+namespace com.achieve.scripting.purchase
 {
-    void Verify(PurchaseEventArgs args);
+    public interface IReceiptLocalVerification
+    {
+        void Verify(PurchaseEventArgs args);
+    }
+
 }
