@@ -1,8 +1,6 @@
-﻿
-using UnityEngine.Purchasing;
+﻿using UnityEngine.Purchasing;
 
 namespace com.achieve.scripting.purchase
-
 {
     public readonly struct InitializeDto
     {

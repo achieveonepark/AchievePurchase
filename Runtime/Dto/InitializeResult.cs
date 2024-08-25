@@ -1,5 +1,4 @@
 ﻿namespace com.achieve.scripting.purchase
-
 {
     public readonly struct InitializeResult
     {
