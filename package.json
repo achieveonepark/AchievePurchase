@@ -1,7 +1,7 @@
 {
   "name": "com.achieve.scripting.purchase",
-  "displayName": "Achieve Purcase",
-  "version": "1.0.0",
+  "displayName": "Achieve Purchase",
+  "version": "0.0.1-beta.1",
   "unity": "2022.3",
   "description": "It is a payment module that provides an interface for easy use of Unity IAP.",
   "keywords": [
@@ -12,6 +12,7 @@
     "com.unity.purchasing": "4.12.0"
   },
   "documentationUrl": "https://achieveonepark.github.io/cording-library/Documents/AchievePurchase/AchievePurchase/",
+  "changelogUrl": "https://github.com/achieveonepark/AchievePurchase/blob/main/CHANGELOG.md",
   "repository": {
     "url": "https://github.com/achieveonepark/AchievePurchase",
     "type": "git"
