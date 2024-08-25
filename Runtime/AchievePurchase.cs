@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine.Purchasing;
-using Cysharp.Threading.Tasks;
+using System.Threading.Tasks;
 using System;
 using UnityEngine;
 
@@ -12,8 +12,8 @@ namespace com.achieve.purchase
         internal static IExtensionProvider extensionProvider;
 
         internal static List<PurchaseResult> pendingList;
-        internal static UniTaskCompletionSource<PurchaseResult> purchaseCompletionSource;
-        internal static UniTaskCompletionSource<InitializeResult> initializeCompletionSource;
+        internal static TaskCompletionSource<PurchaseResult> purchaseCompletionSource;
+        internal static TaskCompletionSource<InitializeResult> initializeCompletionSource;
 
         internal static bool isCheckingPendingList;
 
@@ -25,7 +25,7 @@ namespace com.achieve.purchase
         /// </summary>
         /// <param name="dtos">IAP Initialize에 필요한 데이터</param>
         /// <param name="isDebug">Debug.Log를 찍을 것인지?</param>
-        public static async UniTask InitializeAsync(InitializeDto[] dtos, bool isDebug = false)
+        public static async Task InitializeAsync(InitializeDto[] dtos, bool isDebug = false)
         {
             if (_isInitialized) return;
             PurchaseLog.CurrentLogLevel = isDebug ? PurchaseLog.LogLevel.Debug : PurchaseLog.LogLevel.Info;
@@ -61,7 +61,7 @@ namespace com.achieve.purchase
         /// </summary>
         /// <param name="dtos">IAP Initialize에 필요한 데이터</param>
         /// <param name="isDebug">Debug.Log를 찍을 것인지?</param>
-        public static async UniTask InitializeAsync(List<InitializeDto> dtos, bool isDebug = false)
+        public static async Task InitializeAsync(List<InitializeDto> dtos, bool isDebug = false)
         {
             if (_isInitialized) return;
             PurchaseLog.CurrentLogLevel = isDebug ? PurchaseLog.LogLevel.Debug : PurchaseLog.LogLevel.Info;
@@ -124,7 +124,7 @@ namespace com.achieve.purchase
         /// 실패 : onPurchaseSuccess
         /// </summary>
         /// <param name="productId"></param>
-        public static async UniTask<PurchaseResult> PurchaseAsync(string productId)
+        public static async Task<PurchaseResult> PurchaseAsync(string productId)
         {
             if (_isInitialized)
             {
@@ -132,7 +132,7 @@ namespace com.achieve.purchase
                 var result = PurchaseResult.Error("초기화 실패");
             }
             
-            purchaseCompletionSource = new UniTaskCompletionSource<PurchaseResult>();
+            purchaseCompletionSource = new TaskCompletionSource<PurchaseResult>();
             
             PurchaseLog.Info($"Attempt to pay for product [{productId}]...");
             controller.InitiatePurchase(productId);
