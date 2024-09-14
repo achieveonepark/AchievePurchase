@@ -1,7 +1,6 @@
 using UnityEngine.Purchasing;
-using UnityEngine.Purchasing.Security;
 
-namespace com.achieve.scripting.purchase
+namespace Achieve.BreezeIAP
 {
     public class AndroidReceiptLocalVerification : IReceiptLocalVerification
     {

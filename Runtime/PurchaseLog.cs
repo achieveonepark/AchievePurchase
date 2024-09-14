@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace com.achieve.scripting.purchase
+namespace Achieve.BreezeIAP
 {
     public static class PurchaseLog
     {

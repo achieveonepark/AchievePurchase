@@ -1,25 +1,25 @@
 ﻿using UnityEngine.Purchasing;
 using UnityEngine.Purchasing.Extension;
 
-namespace com.achieve.scripting.purchase
+namespace Achieve.BreezeIAP
 {
-    internal class AchievePurchaseReceiver : IDetailedStoreListener
+    internal class BreezeIAPReceiver : IDetailedStoreListener
     {
         public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
         {
-            AchievePurchase.controller = controller;
-            AchievePurchase.extensionProvider = extensions;
-            AchievePurchase.initializeCompletionSource.TrySetResult(InitializeResult.Success());
+            BreezeIAP.controller = controller;
+            BreezeIAP.extensionProvider = extensions;
+            BreezeIAP.initializeCompletionSource.TrySetResult(InitializeResult.Success());
         }
 
         public void OnInitializeFailed(InitializationFailureReason error)
         {
-            AchievePurchase.initializeCompletionSource.TrySetResult(InitializeResult.Error(error.ToString()));
+            BreezeIAP.initializeCompletionSource.TrySetResult(InitializeResult.Error(error.ToString()));
         }
 
         public void OnInitializeFailed(InitializationFailureReason error, string message)
         {
-            AchievePurchase.initializeCompletionSource.TrySetResult(InitializeResult.Error(error.ToString()));
+            BreezeIAP.initializeCompletionSource.TrySetResult(InitializeResult.Error(error.ToString()));
         }
 
         public void OnPurchaseFailed(Product product, PurchaseFailureDescription failureDescription)
@@ -31,7 +31,7 @@ namespace com.achieve.scripting.purchase
                 ErrorMessage = failureDescription.reason.ToString()
             };
 
-            AchievePurchase.purchaseCompletionSource.TrySetResult(purchaseResult);
+            BreezeIAP.purchaseCompletionSource.TrySetResult(purchaseResult);
         }
 
         public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
@@ -43,12 +43,12 @@ namespace com.achieve.scripting.purchase
                 ErrorMessage = failureReason.ToString()
             };
 
-            AchievePurchase.purchaseCompletionSource.TrySetResult(purchaseResult);
+            BreezeIAP.purchaseCompletionSource.TrySetResult(purchaseResult);
         }
 
         public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs purchaseEvent)
         {
-            PurchaseType type = AchievePurchase.isCheckingPendingList ? PurchaseType.Pending : PurchaseType.Purchase;
+            PurchaseType type = BreezeIAP.isCheckingPendingList ? PurchaseType.Pending : PurchaseType.Purchase;
 
             PurchaseResult purchaseResult = new PurchaseResult
             {
@@ -57,8 +57,8 @@ namespace com.achieve.scripting.purchase
                 ErrorMessage = string.Empty
             };
 
-            AchievePurchase.AddPendingList(purchaseResult);
-            AchievePurchase.purchaseCompletionSource.TrySetResult(purchaseResult);
+            BreezeIAP.AddPendingList(purchaseResult);
+            BreezeIAP.purchaseCompletionSource.TrySetResult(purchaseResult);
 
             return PurchaseProcessingResult.Pending;
         }

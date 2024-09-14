@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using System;
 using UnityEngine;
 
-namespace com.achieve.scripting.purchase
+namespace Achieve.BreezeIAP
 {
-    public class AchievePurchase
+    public class BreezeIAP
     {
         internal static IStoreController controller;
         internal static IExtensionProvider extensionProvider;
@@ -17,7 +17,7 @@ namespace com.achieve.scripting.purchase
 
         internal static bool isCheckingPendingList;
 
-        private static AchievePurchaseReceiver _receiver;
+        private static BreezeIAPReceiver _receiver;
         private static bool _isInitialized;
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace com.achieve.scripting.purchase
             if (_isInitialized) return;
             PurchaseLog.CurrentLogLevel = isDebug ? PurchaseLog.LogLevel.Debug : PurchaseLog.LogLevel.Info;
 
-            _receiver = new AchievePurchaseReceiver();
+            _receiver = new BreezeIAPReceiver();
             pendingList = new List<PurchaseResult>();
 
             var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
@@ -74,7 +74,7 @@ namespace com.achieve.scripting.purchase
                 ProductType = ProductType.Consumable
             });
 
-            _receiver = new AchievePurchaseReceiver();
+            _receiver = new BreezeIAPReceiver();
             pendingList = new List<PurchaseResult>();
 
             var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());

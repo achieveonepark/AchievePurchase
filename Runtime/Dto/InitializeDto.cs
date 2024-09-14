@@ -1,6 +1,6 @@
 ﻿using UnityEngine.Purchasing;
 
-namespace com.achieve.scripting.purchase
+namespace Achieve.BreezeIAP
 {
     public readonly struct InitializeDto
     {

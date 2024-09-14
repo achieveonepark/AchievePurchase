@@ -1,6 +1,6 @@
 {
-  "name": "com.achieve.scripting.purchase",
-  "displayName": "Achieve Purchase",
+  "name": "com.achieve.iap",
+  "displayName": "Breeze IAP",
   "author": "Achieveone",
   "version": "0.0.1-beta.2",
   "unity": "2022.3",

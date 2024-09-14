@@ -1,4 +1,4 @@
-namespace com.achieve.scripting.purchase
+namespace Achieve.BreezeIAP
 {
     public enum PurchaseType
     {
