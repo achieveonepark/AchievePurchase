@@ -2,7 +2,7 @@
 
 namespace Achieve.BreezeIAP
 {
-    public static class PurchaseLog
+    public static class BreezeIAPLog
     {
         public enum LogLevel
         {

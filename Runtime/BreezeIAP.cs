@@ -28,7 +28,7 @@ namespace Achieve.BreezeIAP
         public static async Task InitializeAsync(InitializeDto[] dtos, bool isDebug = false)
         {
             if (_isInitialized) return;
-            PurchaseLog.CurrentLogLevel = isDebug ? PurchaseLog.LogLevel.Debug : PurchaseLog.LogLevel.Info;
+            BreezeIAPLog.CurrentLogLevel = isDebug ? BreezeIAPLog.LogLevel.Debug : BreezeIAPLog.LogLevel.Info;
 
             _receiver = new BreezeIAPReceiver();
             pendingList = new List<PurchaseResult>();
@@ -49,11 +49,11 @@ namespace Achieve.BreezeIAP
 
             if (_isInitialized is false)
             {
-                PurchaseLog.Warning("Initialize failed: No response after Initialize");
+                BreezeIAPLog.Warning("Initialize failed: No response after Initialize");
                 return;
             }
 
-            PurchaseLog.Info("Initialize Successful!");
+            BreezeIAPLog.Info("Initialize Successful!");
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace Achieve.BreezeIAP
         public static async Task InitializeAsync(List<InitializeDto> dtos, bool isDebug = false)
         {
             if (_isInitialized) return;
-            PurchaseLog.CurrentLogLevel = isDebug ? PurchaseLog.LogLevel.Debug : PurchaseLog.LogLevel.Info;
+            BreezeIAPLog.CurrentLogLevel = isDebug ? BreezeIAPLog.LogLevel.Debug : BreezeIAPLog.LogLevel.Info;
 
             var dtoArray = dtos.ToArray();
 
@@ -93,11 +93,11 @@ namespace Achieve.BreezeIAP
 
             if (_isInitialized is false)
             {
-                PurchaseLog.Warning("Initialize failed: No response after Initialize");
+                BreezeIAPLog.Warning("Initialize failed: No response after Initialize");
                 return;
             }
 
-            PurchaseLog.Info("Initialize Successful!");
+            BreezeIAPLog.Info("Initialize Successful!");
         }
 
         /// <summary>
@@ -108,11 +108,11 @@ namespace Achieve.BreezeIAP
         {
             if (_isInitialized)
             {
-                PurchaseLog.Warning($"It is not initialized. Call method : {nameof(GetPendingList)}");
+                BreezeIAPLog.Warning($"It is not initialized. Call method : {nameof(GetPendingList)}");
                 return null;
             }
 
-            PurchaseLog.Debug("Get PendingList...");
+            BreezeIAPLog.Debug("Get PendingList...");
             isCheckingPendingList = false;
             return pendingList;
         }
@@ -128,18 +128,18 @@ namespace Achieve.BreezeIAP
         {
             if (_isInitialized)
             {
-                PurchaseLog.Warning($"It is not initialized. Call method : {nameof(PurchaseAsync)}");
+                BreezeIAPLog.Warning($"It is not initialized. Call method : {nameof(PurchaseAsync)}");
                 var result = PurchaseResult.Error("초기화 실패");
             }
             
             purchaseCompletionSource = new TaskCompletionSource<PurchaseResult>();
             
-            PurchaseLog.Info($"Attempt to pay for product [{productId}]...");
+            BreezeIAPLog.Info($"Attempt to pay for product [{productId}]...");
             controller.InitiatePurchase(productId);
 
             // 60초 동안 설정되지 않으면... fail.
             var product = await purchaseCompletionSource.Task.Timeout(TimeSpan.FromSeconds(60));
-            PurchaseLog.Info($"The payment for item [{productId}] was successful!");
+            BreezeIAPLog.Info($"The payment for item [{productId}] was successful!");
 
             purchaseCompletionSource = null;
 
@@ -155,7 +155,7 @@ namespace Achieve.BreezeIAP
         public static void Confirm(PurchaseResult product)
         {
             controller.ConfirmPendingPurchase(product.Product);
-            PurchaseLog.Info($"I confirmed product [{product.Product.definition.id}].");
+            BreezeIAPLog.Info($"I confirmed product [{product.Product.definition.id}].");
         }
         
 
@@ -168,7 +168,7 @@ namespace Achieve.BreezeIAP
         public static void Confirm(Product product)
         {
             controller.ConfirmPendingPurchase(product);
-            PurchaseLog.Info($"I confirmed product [{product.definition.id}].");
+            BreezeIAPLog.Info($"I confirmed product [{product.definition.id}].");
         }
 
         /// <summary>
@@ -183,7 +183,7 @@ namespace Achieve.BreezeIAP
 
                 apple.RestoreTransactions((result, reason) =>
                 {
-                    PurchaseLog.Info(result ? "Restore successful!" : $"Restore failed...{reason}");
+                    BreezeIAPLog.Info(result ? "Restore successful!" : $"Restore failed...{reason}");
                 });
             }
         }
